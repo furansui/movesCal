@@ -43,7 +43,7 @@
 // Also note that we are using "H" instead of "g" because iCalendar's Time format
 // requires 24-hour time (see RFC 5545 section 3.3.12 for info).
 function dateToCal($timestamp) {
-  return date('Ymd\THis\Z', $timestamp);
+  return date('Ymd\THis', $timestamp);
 }
 
 // Escapes a string of characters
@@ -62,17 +62,22 @@ CALSCALE:GREGORIAN";
 function icstail() {
   return "END:VCALENDAR";
 }
+
+function getTZID() {
+  return "Asia/Tokyo";
+}
+
 function ics($summary,$datestart,$dateend,$address,$uri,$description,$filename) {
 return "
 BEGIN:VEVENT
-DTEND:" . dateToCal($dateend) . "
 UID:" .  uniqid()  . "
+DTSTART;TZID=" .  getTZID() . ":" . dateToCal($datestart)  . "
+DTEND;TZID=" .  getTZID() . ":" . dateToCal($dateend) . "
 DTSTAMP:" .  dateToCal(time())  . "
 LOCATION:" .  escapeString($address)  . "
 DESCRIPTION:" .  escapeString($description)  . "
 URL;VALUE=URI:" .  escapeString($uri)  . "
 SUMMARY:" .  escapeString($summary)  . "
-DTSTART:" .  dateToCal($datestart)  . "
 END:VEVENT";
 }
 ?>
