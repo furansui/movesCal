@@ -1,0 +1,4 @@
+Converting the raw json data from Moves app into ICS file. 
+Todo:
+- specify location of .json file
+- specify shared timezone for the 2 files
