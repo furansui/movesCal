@@ -12,10 +12,13 @@ echo icshead() . "\n";
 
 //need to remove trailing commas
 foreach($json as $date) {
+  $i=0;
   foreach($date['segments'] as $segment) {
     $startTime = strtotime($segment['startTime']);
     $endTime = strtotime($segment['endTime']);
 
+    if($i==0 && date("d",$startTime) != date("d",$endTime))
+      continue;
 
     //place
     if($segment['type'] == "place") {
@@ -23,6 +26,7 @@ foreach($json as $date) {
 	echo ics($segment['place']['name'],$startTime,$endTime,"","","","");   
       else
 	echo ics("a place",$startTime,$endTime,"","","","");   
+      $i++;
     }
     //move
     else  {
@@ -34,6 +38,7 @@ foreach($json as $date) {
 	  $act = "transport";	
 	echo ics($act,$startTime,$endTime,"","","","");   
       }
+      $i++;
     }
     echo "\n";
   }
